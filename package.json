@@ -1,0 +1,24 @@
+{
+  "name": "@homebots/jsonstore",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node ./server",
+    "start:dev": "STORAGE=file nodemon -e ts -x ts-node ./server"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.12",
+    "cors": "^2.8.4",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "peerDependencies": {
+    "firebase": "^7.0.0"
+  }
+}
