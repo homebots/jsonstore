@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as crypto from 'crypto';
+import * as Path from 'path';
 // import { FirebaseAdapter } from './firebase-adapter';
 import { InMemoryAdapter } from './in-memory-adapter';
 import { FileAdapter } from './file-adapter';
@@ -17,7 +18,7 @@ switch (storageAdapter) {
     break;
 
   case 'file':
-    adapter = new FileAdapter(__dirname + '/store.json');
+    adapter = new FileAdapter(Path.join(__dirname, '..', 'data', 'store.json'));
     break;
 }
 
