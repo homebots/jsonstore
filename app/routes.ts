@@ -39,11 +39,11 @@ router.get('/new', (_, res) => {
 });
 
 router.get(/^\/[0-9a-z]{64}/, (req, res) => {
+  console.log(req.path.length);
   if (req.path.length === 65) {
     res.status(200).send('{}');
     return;
   }
-
   adapter
     .get(req.path)
     .then(result => res.status(200).send(result))
