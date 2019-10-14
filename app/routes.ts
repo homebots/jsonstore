@@ -31,10 +31,6 @@ function checkContentType(req, res, next) {
 
 const router = express.Router();
 
-router.get('/favicon.ico', (_, res) => {
-  return res.status(404).send(null);
-});
-
 router.get('/new', (_, res) => {
   const seed = crypto.randomBytes(64);
   const hash = crypto.createHash('sha256').update(seed).digest('hex');
@@ -42,6 +38,11 @@ router.get('/new', (_, res) => {
 });
 
 router.get(/^\/[0-9a-z]{64}/, (req, res) => {
+  if (req.path.length === 65) {
+    res.status(200).send('{}');
+    return;
+  }
+
   adapter
     .get(req.path)
     .then(result => res.status(200).send(result))
