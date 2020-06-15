@@ -5,10 +5,10 @@ const notFound = new Error('NOT_FOUND');
 const pathReplace = (path) => path.replace(/\//g, '.').replace(/^\.|\.$/g, '');
 
 export class InMemoryAdapter implements Adapter {
-  protected storage = {};
+  constructor(public content = {}) {}
 
   get(path) {
-    const content = get(this.storage, pathReplace(path));
+    const content = get(this.content, pathReplace(path));
 
     return content !== undefined ?
       Promise.resolve(content) :
@@ -16,29 +16,29 @@ export class InMemoryAdapter implements Adapter {
   }
 
   post(path, data) {
-    set(this.storage, pathReplace(path), data);
+    set(this.content, pathReplace(path), data);
     return Promise.resolve('');
   }
 
   put(path, data) {
-    set(this.storage, pathReplace(path), data);
+    set(this.content, pathReplace(path), data);
     return Promise.resolve('');
   }
 
   patch(path, data) {
-    const value = get(this.storage, pathReplace(path), data);
+    const value = get(this.content, pathReplace(path), data);
 
     if (value && typeof value === 'object') {
-      set(this.storage, pathReplace(path), merge(value, data));
+      set(this.content, pathReplace(path), merge(value, data));
     } else {
-      set(this.storage, pathReplace(path), data);
+      set(this.content, pathReplace(path), data);
     }
 
     return Promise.resolve('');
   }
 
-  delete(path, data) {
-    set(this.storage, pathReplace(path), undefined);
+  delete(path) {
+    set(this.content, pathReplace(path), null);
     return Promise.resolve('');
   }
 };

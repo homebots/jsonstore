@@ -18,7 +18,7 @@ switch (storageAdapter) {
     break;
 
   case 'file':
-    adapter = new FileAdapter(Path.join(__dirname, '..', 'data', 'store.json'));
+    adapter = new FileAdapter(Path.join(__dirname, '..', 'data'));
     break;
 }
 
@@ -38,33 +38,28 @@ router.get('/new', (_, res) => {
   return res.send({ id: hash });
 });
 
-router.get(/^\/[0-9a-z]{64}/, (req, res) => {
-  console.log(req.path.length);
-  if (req.path.length === 65) {
-    res.status(200).send('{}');
-    return;
-  }
+router.get(/^\/[0-9a-f]{64}/, (req, res) => {
   adapter
     .get(req.path)
     .then(result => res.status(200).send(result))
     .catch((error) => res.status(error.message === 'NOT_FOUND' ? 404 : 400).send(''))
 });
 
-router.post(/^\/[0-9a-z]{64}/, checkContentType, (req, res) =>
+router.post(/^\/[0-9a-f]{64}/, checkContentType, (req, res) =>
   adapter
     .post(req.path, req.body)
     .then(() => res.status(201).send(''))
     .catch(() => res.status(500).send(''))
 )
 
-router.put(/^\/[0-9a-z]{64}/, checkContentType, (req, res) =>
+router.put(/^\/[0-9a-f]{64}/, checkContentType, (req, res) =>
   adapter
     .put(req.path, req.body)
     .then(() => res.status(200).send(''))
     .catch(() => res.status(500).send(''))
 );
 
-router.patch(/^\/[0-9a-z]{64}/, checkContentType, (req, res) =>
+router.patch(/^\/[0-9a-f]{64}/, checkContentType, (req, res) =>
   adapter
     .patch(req.path, req.body)
     .then(() => res.status(200).send(''))
@@ -73,7 +68,7 @@ router.patch(/^\/[0-9a-z]{64}/, checkContentType, (req, res) =>
 
 router.delete(/^\/[0-9a-z]{64}/, (req, res) =>
   adapter
-    .delete(req.path, req.body)
+    .delete(req.path)
     .then(() => res.status(200).send(''))
     .catch(() => res.status(500).send(''))
 );

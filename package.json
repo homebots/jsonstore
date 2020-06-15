@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node ./server",
+    "build": "echo true",
     "start:dev": "STORAGE=file nodemon -e ts -x ts-node ./server"
   },
   "devDependencies": {
