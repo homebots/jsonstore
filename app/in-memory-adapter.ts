@@ -1,8 +1,8 @@
 import { Adapter } from "./adapter";
-import { get, set, merge } from 'lodash';
+import { get, merge } from 'lodash';
 
 const notFound = new Error('NOT_FOUND');
-const pathReplace = (path) => path.replace(/\//g, '.').replace(/^\.|\.$/g, '');
+const pathReplace = (path) => path.split('/').join('.').replace(/^\.|\.$/g, '');
 
 export class InMemoryAdapter implements Adapter {
   constructor(public content = {}) {}
@@ -16,7 +16,11 @@ export class InMemoryAdapter implements Adapter {
   }
 
   post(path, data) {
+    console.log(path, data);
+    console.log(this.content);
     set(this.content, pathReplace(path), data);
+    console.log(this.content);
+
     return Promise.resolve('');
   }
 
@@ -42,3 +46,20 @@ export class InMemoryAdapter implements Adapter {
     return Promise.resolve('');
   }
 };
+
+function set(target, path, value) {
+  const segments = path.split('.');
+  const property = segments.pop();
+
+  let segment: string;
+
+  while (segment = segments.shift()) {
+    if (target[segment] === undefined) {
+      target[segment] = {};
+    }
+
+    target = target[segment];
+  }
+
+  target[property] = value;
+}
