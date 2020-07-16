@@ -20,7 +20,6 @@ export class FileAdapter implements Adapter {
     if (fs.existsSync(filePath)) {
       content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     }
-    console.log('path', filePath, content);
 
     return new InMemoryAdapter(content);
   }

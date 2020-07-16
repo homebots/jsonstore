@@ -17,11 +17,7 @@ export class InMemoryAdapter implements Adapter {
   }
 
   post(path, data) {
-    console.log(path, data);
-    console.log(this.content);
     set(this.content, pathReplace(path), data);
-    console.log(this.content);
-
     return Promise.resolve('');
   }
 
