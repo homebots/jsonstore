@@ -4,9 +4,9 @@
   "license": "MIT",
   "main": "build/server.js",
   "scripts": {
-    "start": "ts-node ./server",
-    "build": "tsc -p tsconfig.json -d --outDir build",
-    "start:dev": "STORAGE=file nodemon -e ts -x ts-node ./server"
+    "start": "node build/server.js",
+    "build": "rm -rf build && tsc -p tsconfig.json -d --outDir build",
+    "start:file": "STORAGE=file nodemon -e ts -x ts-node ./server"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
