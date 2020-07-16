@@ -1,3 +1,5 @@
+export const LOG = (...args: any[]) => console.log(`[${new Date().toISOString()}] `, ...args);
+
 export function guessType(value) {
   const number = /^-?\d*\.?\d*$/;
   const boolean = /(true|false)/;
@@ -23,10 +25,28 @@ export function convert(value, type) {
   return converter(value);
 }
 
-export function splitPath(path) {
-  const parts = path.split('/');
-  return {
-    id: path[0],
-    path: path.slice(1)
-  };
+// /:hash/:path
+// hash is 64 chars long
+export function splitHashAndPath(url: string) {
+  const hash = url.slice(1, 65);
+  const path = url.slice(66);
+
+  return { hash, path };
+}
+
+export function set(target, path, value) {
+  const segments = path.split('.');
+  const property = segments.pop();
+
+  let segment: string;
+
+  while (segment = segments.shift()) {
+    if (target[segment] === undefined) {
+      target[segment] = {};
+    }
+
+    target = target[segment];
+  }
+
+  target[property] = value;
 }

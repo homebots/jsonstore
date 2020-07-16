@@ -2,9 +2,10 @@
   "name": "@homebots/jsonstore",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "build/server.js",
   "scripts": {
     "start": "ts-node ./server",
-    "build": "echo true",
+    "build": "tsc -p tsconfig.json -d --outDir build",
     "start:dev": "STORAGE=file nodemon -e ts -x ts-node ./server"
   },
   "devDependencies": {
@@ -14,11 +15,9 @@
     "@types/node": "^12.12.50",
     "cors": "^2.8.4",
     "express": "^4.17.1",
+    "firebase": "^7.16.0",
     "lodash": "^4.17.19",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
-  },
-  "peerDependencies": {
-    "firebase": "^7.0.0"
   }
 }

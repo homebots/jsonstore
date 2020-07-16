@@ -1,65 +1,41 @@
-import firebase from 'firebase';
-import { convert } from './common';
+import * as firebase from 'firebase';
 import { Adapter } from './adapter';
 
 export class FirebaseAdapter implements Adapter {
-  constructor(config) {
+  app: firebase.app.App;
+
+  constructor(config: object) {
     if (!config) {
       throw new Error('Config is missing');
     }
 
-    firebase.initializeApp(config);
+    this.app = firebase.initializeApp(config);
   }
 
-  get(key) {
-    let ref = firebase.database().ref(key);
-
-    // if (orderKey) {
-    //   ref = ref.orderByChild(orderKey);
-    //   if (filterValue !== undefined) {
-    //     ref = ref.equalTo(convert(filterValue, valueType));
-    //   }
-    // }
-
-    // return ref
-    //   .once('value')
-    //   .then(snapshot => {
-    //     if (!orderKey) {
-    //       return snapshot.val();
-    //     }
-
-    //     const data = [];
-    //     snapshot.forEach(item => {
-    //       if (item.val()) {
-    //         data.push(item.val());
-    //       }
-    //     });
-    //     return data;
-    //   });
+  get firebase() {
+    return firebase.database(this.app);
   }
 
-  post(key, data) {
-    return firebase
-      .database()
-      .ref(key)
-      .set(data)
+  async get(path: string) {
+    const snapshot = await this.firebase.ref(path).once('value');
+    return snapshot.val();
   }
 
-  put(key, data) {
-    return firebase
-      .database()
-      .ref()
-      .update({
-        [key]: data,
-      })
+  post(path: string, data: any) {
+    return this.firebase.ref(path).set(data);
   }
 
-  delete(key) {
-    return firebase
-      .database()
-      .ref(key)
-      .remove()
+  put(path: string, data: any) {
+    return this.firebase.ref().update({
+      [path]: data,
+    })
   }
 
-  patch(key, value) {}
+  delete(path: string) {
+    return this.firebase.ref(path).remove()
+  }
+
+  patch() {
+    return Promise.reject(null);
+  }
 }

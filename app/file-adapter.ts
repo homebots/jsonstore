@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as Path from 'path';
 import { Adapter } from './adapter';
 import { InMemoryAdapter } from './in-memory-adapter';
+import { splitHashAndPath } from './common';
 
 export class FileAdapter implements Adapter {
   storage: object = {};
@@ -10,13 +11,6 @@ export class FileAdapter implements Adapter {
 
   writeContent(hash, storage) {
     fs.writeFile(Path.join(this.dataFolder, hash), JSON.stringify(storage), () => {});
-  }
-
-  private splitHashAndPath(key) {
-    const hash = key.slice(1, 65);
-    const path = key.slice(66);
-
-    return { hash, path };
   }
 
   private createInMemoryBuffer(hash) {
@@ -32,14 +26,14 @@ export class FileAdapter implements Adapter {
   }
 
   get(key: string) {
-    const { hash, path } = this.splitHashAndPath(key);
+    const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryBuffer(hash);
 
     return buffer.get(path);
   }
 
   patch(key, data) {
-    const { hash, path } = this.splitHashAndPath(key);
+    const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryBuffer(hash);
 
     const output = buffer.patch(path, data);
@@ -48,7 +42,7 @@ export class FileAdapter implements Adapter {
   }
 
   post(key, data) {
-    const { hash, path } = this.splitHashAndPath(key);
+    const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryBuffer(hash);
 
     const output = buffer.post(path, data);
@@ -57,7 +51,7 @@ export class FileAdapter implements Adapter {
   }
 
   put(key, data) {
-    const { hash, path } = this.splitHashAndPath(key);
+    const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryBuffer(hash);
 
     const output = buffer.put(path, data);
@@ -66,7 +60,7 @@ export class FileAdapter implements Adapter {
   }
 
   delete(key) {
-    const { hash, path } = this.splitHashAndPath(key);
+    const { hash, path } = splitHashAndPath(key);
     const buffer = this.createInMemoryBuffer(hash);
 
     const output = buffer.delete(path);
