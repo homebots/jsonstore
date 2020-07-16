@@ -2,7 +2,7 @@
 
 Create a database:
 
-`curl -XGET 'https://s.homebots.io/new'`
+`curl -XGET 'https://json.homebots.io/new'`
 
 ```json
 {
@@ -32,5 +32,5 @@ curl -XPUT -H "Content-type: application/json" -d '32' 'https://json.homebots.io
 #### DELETE
 The following command will delete the user:
 ```shell
-curl -XDELETE 'https://s.homebots.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
+curl -XDELETE 'https://json.homebots.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
 ```
