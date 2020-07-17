@@ -2,7 +2,7 @@
 
 Create a database:
 
-`curl -XGET 'https://json.homebots.io/new'`
+`curl 'https://json.homebots.io/new'`
 
 ```json
 {

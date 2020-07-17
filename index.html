@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JSON storage" />
+    <meta name="description" content="Free JSON storage service" />
     <title>JSON storage</title>
     <script>document.addEventListener('DOMContentLoaded', () => {
-        const main = document.querySelector('main');
-        fetch('https://mdaas.homebots.io', { method: 'POST', body: main.innerHTML })
-            .then(r => r.text()).then(html => {
-                main.innerHTML = html;
-                main.classList.remove('text');
-            });
-    })</script>
-    <style>.text { white-space: pre-wrap; }</style>
+            const main = document.querySelector('main');
+            fetch('https://mdaas.homebots.io', { mode: 'cors', method: 'POST', body: main.innerHTML })
+                .then(r => r.text()).then(html => {
+                    main.innerHTML = html;
+                    main.classList.remove('text');
+                });
+        })</script>
+    <style>
+        html { font-size: 100%; }
+        body {
+            background: #daae2b;
+            font-family: sans-serif;
+        }
+
+        main {
+            max-width: 990px;
+            margin: 2rem auto;
+            padding: 4rem 6rem;
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+        }
+        .text {
+            white-space: pre-wrap;
+        }
+
+        code {
+            background: #291919;
+            padding: 1rem;
+        }
+    </style>
 </head>
+
 <body>
     <main class="text">%content%</main>
 </body>
+
 </html>
