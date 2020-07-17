@@ -9,6 +9,10 @@ export class InMemoryAdapter implements Adapter {
   constructor(public content = {}) {}
 
   get(path) {
+    if (path === '') {
+      return this.content;
+    }
+
     const content = get(this.content, pathReplace(path));
 
     return content !== undefined ?

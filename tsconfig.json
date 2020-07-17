@@ -10,5 +10,5 @@
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["app/**/*.ts"],
-  "files": ["server.ts"]
+  "files": ["app/index.ts"]
 }

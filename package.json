@@ -2,11 +2,11 @@
   "name": "@homebots/jsonstore",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "build/server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node index.js",
     "build": "rm -rf build && tsc -p tsconfig.json -d --outDir build",
-    "start:file": "STORAGE=file nodemon -e ts -x ts-node ./server"
+    "start:file": "STORAGE=file nodemon -e ts -w app -x 'npm run build && ts-node ./index'"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"

@@ -10,7 +10,7 @@ import { FirebaseAdapter } from './firebase-adapter';
 const storageAdapter = process.env.STORAGE || 'memory';
 let adapter: Adapter;
 
-LOG('Using %s adapter', storageAdapter);
+LOG('Adapter:', storageAdapter);
 
 switch (storageAdapter) {
   case 'memory':
@@ -35,6 +35,7 @@ function checkContentType(req, res, next) {
 }
 
 const router = express.Router();
+const routeMatcher = /^\/[0-9a-f]{64}/;
 
 router.get('/new', (_, res) => {
   const seed = crypto.randomBytes(64);
@@ -42,44 +43,54 @@ router.get('/new', (_, res) => {
   return res.send({ id: hash });
 });
 
-router.get(/^\/[0-9a-f]{64}/, (req, res) => {
+router.get(routeMatcher, async (req, res) => {
   LOG('GET', req.path);
-  adapter
-    .get(req.path)
-    .then(result => res.status(200).send(result))
-    .catch((error) => res.status(error.message === 'NOT_FOUND' ? 404 : 400).send(''))
+  try {
+    const result = await adapter.get(req.path)
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(error.message === 'NOT_FOUND' ? 404 : 400).send('');
+  }
 });
 
-router.post(/^\/[0-9a-f]{64}/, checkContentType, (req, res) => {
+router.post(routeMatcher, checkContentType, async (req, res) => {
   LOG('POST', req.path, req.body);
-  adapter
-    .post(req.path, req.body)
-    .then(() => res.status(201).send(''))
-    .catch(() => res.status(500).send(''))
-})
+  try {
+    await adapter.post(req.path, req.body);
+    res.status(201).send('');
+  } catch {
+    res.status(500).send('');
+  }
+});
 
-router.put(/^\/[0-9a-f]{64}/, checkContentType, (req, res) => {
+router.put(routeMatcher, checkContentType, async (req, res) => {
   LOG('PUT', req.path, req.body);
-  adapter
-    .put(req.path, req.body)
-    .then(() => res.status(200).send(''))
-    .catch(() => res.status(500).send(''))
+  try {
+    adapter.put(req.path, req.body);
+    res.status(200).send('');
+  } catch {
+    res.status(500).send('');
+  }
 });
 
-router.patch(/^\/[0-9a-f]{64}/, checkContentType, (req, res) => {
+router.patch(routeMatcher, checkContentType, async (req, res) => {
   LOG('PATCH', req.path, req.body);
-  adapter
-    .patch(req.path, req.body)
-    .then(() => res.status(200).send(''))
-    .catch(() => res.status(500).send(''))
+  try {
+    await adapter.patch(req.path, req.body)
+    res.status(200).send('');
+  } catch {
+    res.status(500).send('');
+  }
 });
 
-router.delete(/^\/[0-9a-z]{64}/, (req, res) => {
+router.delete(routeMatcher, async (req, res) => {
   LOG('DELETE', req.path);
-  adapter
-    .delete(req.path)
-    .then(() => res.status(200).send(''))
-    .catch(() => res.status(500).send(''))
+  try {
+    await adapter.delete(req.path);
+    res.status(200).send('');
+  } catch {
+    res.status(500).send('');
+  }
 });
 
 export default router;

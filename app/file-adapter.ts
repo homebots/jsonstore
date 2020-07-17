@@ -5,8 +5,6 @@ import { InMemoryAdapter } from './in-memory-adapter';
 import { splitHashAndPath } from './common';
 
 export class FileAdapter implements Adapter {
-  storage: object = {};
-
   constructor(private dataFolder: string) {}
 
   writeContent(hash, storage) {
