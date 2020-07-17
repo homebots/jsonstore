@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON storage</title>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        const main = document.querySelector('main');
+        fetch('https://mdaas.homebots.io', { method: 'POST', body: main.innerHTML })
+            .then(r => r.text()).then(html => {
+                main.innerHTML = html;
+                main.classList.remove('text');
+            });
+    })</script>
+    <style>.text { white-space: pre-wrap; }</style>
+</head>
+<body>
+    <main class="text">%content%</main>
+</body>
+</html>
