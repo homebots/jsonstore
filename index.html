@@ -7,35 +7,74 @@
     <meta name="description" content="JSON storage" />
     <meta name="description" content="Free JSON storage service" />
     <title>JSON storage</title>
-    <script>document.addEventListener('DOMContentLoaded', () => {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
             const main = document.querySelector('main');
             fetch('https://mdaas.homebots.io', { mode: 'cors', method: 'POST', body: main.innerHTML })
                 .then(r => r.text()).then(html => {
                     main.innerHTML = html;
                     main.classList.remove('text');
                 });
-        })</script>
+        });
+    </script>
     <style>
-        html { font-size: 100%; }
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 100%;
+        }
+
         body {
             background: #daae2b;
             font-family: sans-serif;
         }
 
         main {
-            max-width: 990px;
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 4rem 6rem;
             background-color: white;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
         }
-        .text {
-            white-space: pre-wrap;
+
+        textarea {
+            font-family: monospace;
+            padding: 1rem;
+            min-height: 290px;
+            width: 100%;
+            border: 0;
+            background-color: #eee;
         }
 
         code {
             background: #291919;
             padding: 1rem;
+            color: #eee;
+            display: block;
+            border-radius: 3px;
+            white-space: pre-wrap;
+        }
+
+        p>code {
+            display: inline-block;
+            padding: .5rem;
+        }
+
+        hr {
+            margin: 3rem 0;
+            border: 0;
+            height: 2px;
+            background-color: rgba(9, 30, 66, 0.08);
+        }
+
+        .copied {
+            display: none;
+        }
+
+        .text {
+            white-space: pre-wrap;
         }
     </style>
 </head>
