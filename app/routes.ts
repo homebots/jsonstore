@@ -18,7 +18,7 @@ switch (storageAdapter) {
     break;
 
   case 'file':
-    adapter = new FileAdapter(Path.join(__dirname, '..', 'data'));
+    adapter = new FileAdapter(process.env.DATA_DIR);
     break;
 
   case 'firebase':
