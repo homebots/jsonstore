@@ -34,3 +34,18 @@ The following command will delete the user:
 ```shell
 curl -XDELETE 'https://json.homebots.io/cdc0cafc15b857a2a61d292c0a30359091f57c9bc430f0785d0ed564f0b1fb9b/user/123'
 ```
+
+## How to run
+
+- Install dependencies
+- run `npm run build`
+- run `npm start` or `node index.js`
+
+## Env Variables
+
+```
+PORT              http port where the service runs
+STORAGE           Type of storage to use. See 'routes.ts' for available types.
+DATA_DIR          /path/to/folder where files will be stored if 'file' storage is used
+FIREBASE_CONFIG   JSON config for Firebase if 'firebase' storage is used
+```
