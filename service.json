@@ -1,3 +1,6 @@
 {
-  "domain": "json.homebots.io"
+  "domain": "json.homebots.io",
+  "env": {
+    "STORAGE": "file"
+  }
 }
